@@ -7,7 +7,7 @@
  * Text Domain: rs-sales-content
  */
 
-if (!defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -18,11 +18,11 @@ require_once RS_SALES_CONTENT_PATH . 'includes/class-post-type.php';
 require_once RS_SALES_CONTENT_PATH . 'includes/class-rest-controller.php';
 require_once RS_SALES_CONTENT_PATH . 'includes/class-manifest-builder.php';
 
-add_action('init', function() {
+add_action('init', function () {
     RS_Sales_Post_Type::register();
 });
 
-add_action('rest_api_init', function() {
+add_action('rest_api_init', function () {
     $controller = new RS_Sales_REST_Controller();
     $controller->register_routes();
 });

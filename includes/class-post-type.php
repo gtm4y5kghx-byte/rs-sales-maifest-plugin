@@ -3,18 +3,21 @@
  * Custom post type registration for sales assets
  */
 
-if (!defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class RS_Sales_Post_Type {
-    
-    public static function register() {
+class RS_Sales_Post_Type
+{
+
+    public static function register()
+    {
         self::register_post_type();
         self::register_taxonomy();
     }
 
-     private static function register_post_type() {
+    private static function register_post_type()
+    {
         $labels = [
             'name'               => 'Sales Assets',
             'singular_name'      => 'Sales Asset',
@@ -48,17 +51,18 @@ class RS_Sales_Post_Type {
         register_post_type('rs_sales_asset', $args);
     }
 
-    private static function register_taxonomy() {
+    private static function register_taxonomy()
+    {
         $labels = [
-            'name'              => 'Asset Categories',
-            'singular_name'     => 'Asset Category',
-            'search_items'      => 'Search Categories',
-            'all_items'         => 'All Categories',
-            'edit_item'         => 'Edit Category',
-            'update_item'       => 'Update Category',
-            'add_new_item'      => 'Add New Category',
-            'new_item_name'     => 'New Category Name',
-            'menu_name'         => 'Categories',
+            'name'          => 'Asset Categories',
+            'singular_name' => 'Asset Category',
+            'search_items'  => 'Search Categories',
+            'all_items'     => 'All Categories',
+            'edit_item'     => 'Edit Category',
+            'update_item'   => 'Update Category',
+            'add_new_item'  => 'Add New Category',
+            'new_item_name' => 'New Category Name',
+            'menu_name'     => 'Categories',
         ];
 
         $args = [

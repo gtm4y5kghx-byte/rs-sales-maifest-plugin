@@ -3,15 +3,17 @@
  * REST API controller for content manifest endpoint
  */
 
-if (!defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class RS_Sales_REST_Controller {
+class RS_Sales_REST_Controller
+{
 
     private $namespace = 'rs-sales/v1';
-    
-    public function register_routes() {
+
+    public function register_routes()
+    {
         register_rest_route($this->namespace, '/content-manifest', [
             'methods'             => 'GET',
             'callback'            => [$this, 'get_manifest'],
@@ -19,10 +21,11 @@ class RS_Sales_REST_Controller {
         ]);
     }
 
-    public function validate_api_key($request) {
+    public function validate_api_key($request)
+    {
         $api_key = $request->get_header('X-RS-API-Key');
-        
-        if (!defined('RS_SALES_API_KEY')) {
+
+        if (! defined('RS_SALES_API_KEY')) {
             return new WP_Error(
                 'missing_config',
                 'API key not configured on server',
@@ -41,15 +44,16 @@ class RS_Sales_REST_Controller {
         return true;
     }
 
-    public function get_manifest($request) {
-        $builder = new RS_Sales_Manifest_Builder();
+    public function get_manifest($request)
+    {
+        $builder  = new RS_Sales_Manifest_Builder();
         $manifest = $builder->build();
 
         $response = new WP_REST_Response($manifest, 200);
-        
+
         // Prevent WPEngine caching
         $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
-        
+
         if (defined('RS_SALES_CORS_ORIGIN')) {
             $response->header('Access-Control-Allow-Origin', RS_SALES_CORS_ORIGIN);
             $response->header('Access-Control-Allow-Headers', 'X-RS-API-Key, Content-Type');
