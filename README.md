@@ -1,0 +1,1 @@
+# rs-sales-maifest-plugin
