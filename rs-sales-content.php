@@ -26,3 +26,16 @@ add_action('rest_api_init', function () {
     $controller = new RS_Sales_REST_Controller();
     $controller->register_routes();
 });
+
+add_action('init', function () {
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        if (defined('RS_SALES_CORS_ORIGIN')) {
+            header('Access-Control-Allow-Origin: ' . RS_SALES_CORS_ORIGIN);
+            header('Access-Control-Allow-Methods: GET, OPTIONS');
+            header('Access-Control-Allow-Headers: X-RS-API-Key, Content-Type');
+            header('Access-Control-Max-Age: 86400');
+        }
+        status_header(204);
+        exit;
+    }
+});

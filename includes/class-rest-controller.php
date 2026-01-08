@@ -15,10 +15,24 @@ class RS_Sales_REST_Controller
     public function register_routes()
     {
         register_rest_route($this->namespace, '/content-manifest', [
-            'methods'             => 'GET',
-            'callback'            => [$this, 'get_manifest'],
-            'permission_callback' => [$this, 'validate_api_key'],
+            [
+                'methods'             => 'GET',
+                'callback'            => [$this, 'get_manifest'],
+                'permission_callback' => [$this, 'validate_api_key'],
+            ],
+            [
+                'methods'             => 'OPTIONS',
+                'callback'            => [$this, 'handle_preflight'],
+                'permission_callback' => '__return_true',
+            ],
         ]);
+    }
+
+    public function handle_preflight($request)
+    {
+        $response = new WP_REST_Response(null, 204);
+        $this->add_cors_headers($response);
+        return $response;
     }
 
     public function validate_api_key($request)
@@ -53,12 +67,17 @@ class RS_Sales_REST_Controller
 
         // Prevent WPEngine caching
         $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
-
-        if (defined('RS_SALES_CORS_ORIGIN')) {
-            $response->header('Access-Control-Allow-Origin', RS_SALES_CORS_ORIGIN);
-            $response->header('Access-Control-Allow-Headers', 'X-RS-API-Key, Content-Type');
-        }
+        $this->add_cors_headers($response);
 
         return $response;
+    }
+
+    private function add_cors_headers($response)
+    {
+        if (defined('RS_SALES_CORS_ORIGIN')) {
+            $response->header('Access-Control-Allow-Origin', RS_SALES_CORS_ORIGIN);
+            $response->header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+            $response->header('Access-Control-Allow-Headers', 'X-RS-API-Key, Content-Type');
+        }
     }
 }
