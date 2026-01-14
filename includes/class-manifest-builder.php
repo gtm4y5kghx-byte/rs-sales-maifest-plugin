@@ -89,7 +89,15 @@ class RS_Sales_Manifest_Builder
         $terms       = wp_get_post_terms($post->ID, 'rs_asset_category', ['fields' => 'ids']);
         $category_id = ! empty($terms) ? $terms[0] : null;
 
-        $thumbnail = get_the_post_thumbnail_url($post->ID, 'medium');
+        $file_type = $this->get_file_type($file_path);
+
+        // For images, use the attachment's medium size as thumbnail
+        // For other types, use the post's featured image
+        if ($file_type === 'image') {
+            $thumbnail = wp_get_attachment_image_url($attachment_id, 'medium');
+        } else {
+            $thumbnail = get_the_post_thumbnail_url($post->ID, 'medium');
+        }
 
         return [
             'id'          => $post->ID,
@@ -97,7 +105,7 @@ class RS_Sales_Manifest_Builder
             'description' => $post->post_content,
             'url'         => $file_url,
             'thumbnail'   => $thumbnail ?: null,
-            'type'        => $this->get_file_type($file_path),
+            'type'        => $file_type,
             'fileSize'    => $file_size,
             'checksum'    => $checksum,
             'categoryId'  => $category_id,
