@@ -109,6 +109,7 @@ class RS_Sales_Manifest_Builder
             'fileSize'    => $file_size,
             'checksum'    => $checksum,
             'categoryId'  => $category_id,
+            'modified'    => gmdate('c', $modified),
         ];
     }
 
