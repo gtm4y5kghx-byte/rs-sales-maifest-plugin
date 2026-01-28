@@ -128,6 +128,9 @@ class RS_Sales_Manifest_Builder
             'png'  => 'image',
             'gif'  => 'image',
             'webp' => 'image',
+            'mp4'  => 'video',
+            'mov'  => 'video',
+            'webm' => 'video',
         ];
 
         return $types[$ext] ?? 'document';
