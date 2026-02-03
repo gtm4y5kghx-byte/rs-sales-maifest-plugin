@@ -26,6 +26,19 @@ class RS_Sales_REST_Controller
                 'permission_callback' => '__return_true',
             ],
         ]);
+
+        register_rest_route($this->namespace, '/app-content', [
+            [
+                'methods'             => 'GET',
+                'callback'            => [$this, 'get_app_content'],
+                'permission_callback' => [$this, 'validate_api_key'],
+            ],
+            [
+                'methods'             => 'OPTIONS',
+                'callback'            => [$this, 'handle_preflight'],
+                'permission_callback' => '__return_true',
+            ],
+        ]);
     }
 
     public function handle_preflight($request)
@@ -64,6 +77,20 @@ class RS_Sales_REST_Controller
         $manifest = $builder->build();
 
         $response = new WP_REST_Response($manifest, 200);
+
+        // Prevent WPEngine caching
+        $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        $this->add_cors_headers($response);
+
+        return $response;
+    }
+
+    public function get_app_content($request)
+    {
+        $builder = new RS_Sales_App_Content_Builder();
+        $content = $builder->build();
+
+        $response = new WP_REST_Response($content, 200);
 
         // Prevent WPEngine caching
         $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');

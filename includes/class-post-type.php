@@ -14,6 +14,7 @@ class RS_Sales_Post_Type
     {
         self::register_post_type();
         self::register_taxonomy();
+        self::register_sales_page_post_type();
     }
 
     private static function register_post_type()
@@ -75,5 +76,37 @@ class RS_Sales_Post_Type
         ];
 
         register_taxonomy('rs_asset_category', 'rs_sales_asset', $args);
+    }
+
+    private static function register_sales_page_post_type()
+    {
+        $labels = [
+            'name'               => 'Sales Pages',
+            'singular_name'      => 'Sales Page',
+            'add_new'            => 'Add New',
+            'add_new_item'       => 'Add New Sales Page',
+            'edit_item'          => 'Edit Sales Page',
+            'new_item'           => 'New Sales Page',
+            'view_item'          => 'View Sales Page',
+            'search_items'       => 'Search Sales Pages',
+            'not_found'          => 'No sales pages found',
+            'not_found_in_trash' => 'No sales pages found in trash',
+            'menu_name'          => 'Sales Pages',
+        ];
+
+        $args = [
+            'labels'             => $labels,
+            'public'             => false,
+            'publicly_queryable' => false,
+            'show_ui'            => true,
+            'show_in_menu'       => 'edit.php?post_type=rs_sales_asset',
+            'capability_type'    => 'post',
+            'has_archive'        => false,
+            'hierarchical'       => false,
+            'supports'           => ['title', 'thumbnail'],
+            'show_in_rest'       => false,
+        ];
+
+        register_post_type('rs_sales_page', $args);
     }
 }
