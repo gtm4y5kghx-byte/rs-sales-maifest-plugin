@@ -40,6 +40,7 @@ class RS_Sales_ACF_Fields
 		}
 
 		self::register_app_settings_fields();
+		self::register_asset_fields();
 		self::register_sales_page_fields();
 	}
 
@@ -153,6 +154,37 @@ class RS_Sales_ACF_Fields
 					],
 				],
 			],
+		]);
+	}
+
+	/**
+	 * Asset fields: description
+	 */
+	private static function register_asset_fields()
+	{
+		acf_add_local_field_group([
+			'key'      => 'group_rs_asset',
+			'title'    => 'Asset Details',
+			'fields'   => [
+				[
+					'key'         => 'field_rs_asset_description',
+					'label'       => 'Description',
+					'name'        => 'asset_description',
+					'type'        => 'textarea',
+					'rows'        => 4,
+					'placeholder' => 'Brief description of this asset',
+				],
+			],
+			'location' => [
+				[
+					[
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'rs_sales_asset',
+					],
+				],
+			],
+			'position' => 'acf_after_title',
 		]);
 	}
 

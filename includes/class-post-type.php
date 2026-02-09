@@ -45,7 +45,7 @@ class RS_Sales_Post_Type
             'hierarchical'       => false,
             'menu_position'      => 20,
             'menu_icon'          => 'dashicons-media-document',
-            'supports'           => ['title', 'editor', 'thumbnail'],
+            'supports'           => ['title', 'thumbnail'],
             'show_in_rest'       => false,
         ];
 

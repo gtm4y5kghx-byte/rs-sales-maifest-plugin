@@ -167,10 +167,15 @@ class RS_Sales_App_Content_Builder
 				return null;
 			}
 
+			$summary = $row['summary'] ?? '';
+			if (empty($summary)) {
+				$summary = get_field('asset_description', $asset->ID) ?: '';
+			}
+
 			return [
 				'assetId'   => $asset->ID,
 				'title'     => $asset->post_title,
-				'summary'   => $row['summary'] ?? '',
+				'summary'   => $summary,
 				'thumbnail' => get_the_post_thumbnail_url($asset->ID, 'medium') ?: null,
 			];
 		}, $rows);
