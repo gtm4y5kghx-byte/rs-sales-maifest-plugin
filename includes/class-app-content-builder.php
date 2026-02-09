@@ -106,11 +106,7 @@ class RS_Sales_App_Content_Builder
 				'image'       => $this->get_image_data('page_hero_image', $id),
 			],
 			'applications' => $this->get_applications($id),
-			'video'        => [
-				'title'       => get_field('page_video_title', $id) ?: '',
-				'url'         => get_field('page_video_url', $id) ?: '',
-				'description' => get_field('page_video_description', $id) ?: '',
-			],
+			'video'        => $this->get_video_data($id),
 			'features'     => $this->get_features($id),
 			'caseStudies'  => $this->get_case_studies($id),
 		];
@@ -180,6 +176,18 @@ class RS_Sales_App_Content_Builder
 		}, $rows);
 
 		return array_values(array_filter($studies));
+	}
+
+	private function get_video_data($post_id)
+	{
+		$file_id = get_field('page_video_file', $post_id);
+
+		return [
+			'title'       => get_field('page_video_title', $post_id) ?: '',
+			'url'         => $file_id ? wp_get_attachment_url($file_id) : '',
+			'poster'      => $this->get_image_data('page_video_poster', $post_id),
+			'description' => get_field('page_video_description', $post_id) ?: '',
+		];
 	}
 
 	/**
