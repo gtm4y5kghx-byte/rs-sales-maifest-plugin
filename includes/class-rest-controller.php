@@ -101,10 +101,18 @@ class RS_Sales_REST_Controller
 
     private function add_cors_headers($response)
     {
-        if (defined('RS_SALES_CORS_ORIGIN')) {
-            $response->header('Access-Control-Allow-Origin', RS_SALES_CORS_ORIGIN);
+        if (! defined('RS_SALES_CORS_ORIGIN')) {
+            return;
+        }
+
+        $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+        $allowed = array_map('trim', explode(',', RS_SALES_CORS_ORIGIN));
+
+        if (in_array($origin, $allowed, true)) {
+            $response->header('Access-Control-Allow-Origin', $origin);
             $response->header('Access-Control-Allow-Methods', 'GET, OPTIONS');
             $response->header('Access-Control-Allow-Headers', 'X-RS-API-Key, Content-Type');
+            $response->header('Vary', 'Origin');
         }
     }
 }

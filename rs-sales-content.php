@@ -34,10 +34,16 @@ add_action('rest_api_init', function () {
 add_action('init', function () {
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         if (defined('RS_SALES_CORS_ORIGIN')) {
-            header('Access-Control-Allow-Origin: ' . RS_SALES_CORS_ORIGIN);
-            header('Access-Control-Allow-Methods: GET, OPTIONS');
-            header('Access-Control-Allow-Headers: X-RS-API-Key, Content-Type');
-            header('Access-Control-Max-Age: 86400');
+            $origin  = $_SERVER['HTTP_ORIGIN'] ?? '';
+            $allowed = array_map('trim', explode(',', RS_SALES_CORS_ORIGIN));
+
+            if (in_array($origin, $allowed, true)) {
+                header('Access-Control-Allow-Origin: ' . $origin);
+                header('Access-Control-Allow-Methods: GET, OPTIONS');
+                header('Access-Control-Allow-Headers: X-RS-API-Key, Content-Type');
+                header('Access-Control-Max-Age: 86400');
+                header('Vary: Origin');
+            }
         }
         status_header(204);
         exit;
