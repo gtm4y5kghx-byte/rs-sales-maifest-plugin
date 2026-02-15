@@ -167,6 +167,14 @@ class RS_Sales_ACF_Fields
 			'title'    => 'Asset Details',
 			'fields'   => [
 				[
+					'key'           => 'field_rs_asset_file',
+					'label'         => 'Asset File',
+					'name'          => 'asset_file',
+					'type'          => 'file',
+					'return_format' => 'id',
+					'required'      => 1,
+				],
+				[
 					'key'         => 'field_rs_asset_description',
 					'label'       => 'Description',
 					'name'        => 'asset_description',
