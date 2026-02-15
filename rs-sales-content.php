@@ -33,6 +33,11 @@ add_action('rest_api_init', function () {
 
 add_action('init', function () {
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+        if (strpos($request_uri, '/wp-json/rs-sales/') === false) {
+            return;
+        }
+
         if (defined('RS_SALES_CORS_ORIGIN')) {
             $origin  = $_SERVER['HTTP_ORIGIN'] ?? '';
             $allowed = array_map('trim', explode(',', RS_SALES_CORS_ORIGIN));

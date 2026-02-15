@@ -54,13 +54,13 @@ class RS_Sales_REST_Controller
 
         if (! defined('RS_SALES_API_KEY')) {
             return new WP_Error(
-                'missing_config',
-                'API key not configured on server',
-                ['status' => 500]
+                'unauthorized',
+                'Invalid or missing API key',
+                ['status' => 401]
             );
         }
 
-        if ($api_key !== RS_SALES_API_KEY) {
+        if (! hash_equals(RS_SALES_API_KEY, $api_key ?? '')) {
             return new WP_Error(
                 'unauthorized',
                 'Invalid or missing API key',
