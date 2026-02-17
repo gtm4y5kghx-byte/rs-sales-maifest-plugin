@@ -103,7 +103,7 @@ class RS_Sales_Post_Type
             'capability_type'    => 'post',
             'has_archive'        => false,
             'hierarchical'       => false,
-            'supports'           => ['title', 'thumbnail'],
+            'supports'           => ['title'],
             'show_in_rest'       => false,
         ];
 
