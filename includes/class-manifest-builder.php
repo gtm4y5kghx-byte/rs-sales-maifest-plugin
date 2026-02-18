@@ -102,7 +102,7 @@ class RS_Sales_Manifest_Builder
         return [
             'id'          => $post->ID,
             'title'       => $post->post_title,
-            'description' => $post->post_content,
+            'description' => get_field('asset_show_description', $post->ID) ? (get_field('asset_description', $post->ID) ?: '') : '',
             'url'         => $file_url,
             'thumbnail'   => $thumbnail ?: null,
             'type'        => $file_type,

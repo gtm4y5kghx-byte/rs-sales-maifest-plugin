@@ -175,12 +175,29 @@ class RS_Sales_ACF_Fields
 					'required'      => 1,
 				],
 				[
-					'key'         => 'field_rs_asset_description',
-					'label'       => 'Description',
-					'name'        => 'asset_description',
-					'type'        => 'textarea',
-					'rows'        => 4,
-					'placeholder' => 'Brief description of this asset',
+					'key'           => 'field_rs_asset_show_description',
+					'label'         => 'Show Description',
+					'name'          => 'asset_show_description',
+					'type'          => 'true_false',
+					'default_value' => 0,
+					'ui'            => 1,
+				],
+				[
+					'key'               => 'field_rs_asset_description',
+					'label'             => 'Description',
+					'name'              => 'asset_description',
+					'type'              => 'textarea',
+					'rows'              => 4,
+					'placeholder'       => 'Brief description of this asset',
+					'conditional_logic' => [
+						[
+							[
+								'field'    => 'field_rs_asset_show_description',
+								'operator' => '==',
+								'value'    => '1',
+							],
+						],
+					],
 				],
 			],
 			'location' => [
