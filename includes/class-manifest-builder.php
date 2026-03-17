@@ -12,12 +12,39 @@ class RS_Sales_Manifest_Builder
 
     public function build()
     {
-        return [
+        $this->suspend_exactdn();
+
+        $result = [
             'version'    => $this->get_version(),
             'categories' => $this->get_categories(),
             'items'      => $this->get_items(),
             'totalSize'  => $this->get_total_size(),
         ];
+
+        $this->restore_exactdn();
+
+        return $result;
+    }
+
+    /**
+     * Suspend EWWW ExactDN CDN URL rewriting so the PWA gets original WordPress URLs
+     * that can be cached and served offline.
+     *
+     * ExactDN hooks image_downsize (priority 10) to rewrite URLs returned by
+     * wp_get_attachment_image_url() and get_the_post_thumbnail_url().
+     */
+    private function suspend_exactdn()
+    {
+        if (isset($GLOBALS['exactdn']) && is_object($GLOBALS['exactdn'])) {
+            remove_filter('image_downsize', [$GLOBALS['exactdn'], 'filter_image_downsize'], 10);
+        }
+    }
+
+    private function restore_exactdn()
+    {
+        if (isset($GLOBALS['exactdn']) && is_object($GLOBALS['exactdn'])) {
+            add_filter('image_downsize', [$GLOBALS['exactdn'], 'filter_image_downsize'], 10, 3);
+        }
     }
 
     private function get_version()
