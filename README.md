@@ -1,4 +1,4 @@
-# RS Sales Content
+# RS Sales Manifest Plugin
 
 Custom WordPress plugin that serves as the backend API for the [RS Sales App](https://github.com/gtm4y5kghx-byte/rs-sales-app) PWA. Manages sales assets and exposes them via REST endpoints for offline-first content syncing.
 
